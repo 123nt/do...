@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Minimalist Page</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="do.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="page-header">
+          <h1>do...</h1>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <ul class="todo-list" id="todoList"></ul>
+    </div>
+
+    <button class="add-button" id="addButton">
+      <i class="fas fa-plus"></i>
+    </button>
+
+    <div class="modal" id="todoModal">
+      <div class="modal-content">
+        <input type="text" id="todoInput" placeholder="Enter your task..." />
+        <div class="modal-buttons">
+          <button class="cancel-btn" id="cancelButton">Cancel</button>
+          <button class="save-btn" id="saveButton">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="do.js"></script>
+  </body>
+</html>
