@@ -610,3 +610,36 @@ p {
     margin: 2.5rem auto 0;
     list-style: none;
 }
+
+.install-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    font-size: 14px;
+}
+
+.install-btn i {
+    font-size: 16px;
+}
+
+.install-btn:hover {
+    background: #0056b3;
+}
+
+@media (max-width: 768px) {
+    .install-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    .install-btn i {
+        font-size: 14px;
+    }
+}

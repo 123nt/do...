@@ -1,3 +1,16 @@
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch(error => {
+        console.log('Service Worker registration failed:', error);
+      });
+  });
+}
+
 const addButton = document.getElementById("addButton");
 const modal = document.getElementById("todoModal");
 const taskNameInput = document.getElementById("taskNameInput");
@@ -5,6 +18,37 @@ const taskContentInput = document.getElementById("taskContentInput");
 const saveButton = document.getElementById("saveButton");
 const cancelButton = document.getElementById("cancelButton");
 const todoList = document.getElementById("todoList");
+let deferredPrompt;
+const installBtn = document.getElementById('installBtn');
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent the mini-infobar from appearing on mobile
+    e.preventDefault();
+    // Stash the event so it can be triggered later
+    deferredPrompt = e;
+    // Show the install button
+    installBtn.style.display = 'flex';
+});
+
+installBtn.addEventListener('click', async () => {
+    if (!deferredPrompt) {
+        return;
+    }
+    // Show the install prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice;
+    // We've used the prompt, and can't use it again, so clear it
+    deferredPrompt = null;
+    // Hide the install button
+    installBtn.style.display = 'none';
+});
+
+// Hide the install button if app is already installed
+window.addEventListener('appinstalled', () => {
+    installBtn.style.display = 'none';
+    deferredPrompt = null;
+});
 
 // Load todos from localStorage
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
