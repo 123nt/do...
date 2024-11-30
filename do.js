@@ -21,17 +21,18 @@ const todoList = document.getElementById("todoList");
 let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
 
+// Initially hide the install button
+installBtn.style.display = 'none';
+
 // Check if app is running in standalone mode
 if (window.matchMedia('(display-mode: standalone)').matches || 
     (window.navigator.standalone === true) || 
     document.referrer.includes('android-app://')) {
     // App is installed
     installBtn.style.display = 'none';
-} else {
-    installBtn.style.display = 'flex';
 }
 
-// Desktop Chrome installation
+// Listen for beforeinstallprompt event
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent the mini-infobar from appearing on mobile
     e.preventDefault();
@@ -40,46 +41,49 @@ window.addEventListener('beforeinstallprompt', (e) => {
     // Show the install button
     installBtn.style.display = 'flex';
     
-    // Optional: Log that the app is installable
     console.log('📱 App is installable');
 });
 
 // Handle installation button click
 installBtn.addEventListener('click', async () => {
-    if (!deferredPrompt) {
-        // Show installation instructions based on browser
-        const userAgent = navigator.userAgent.toLowerCase();
-        let message = 'Installation is not available. ';
+    if (deferredPrompt) {
+        // Show the install prompt
+        deferredPrompt.prompt();
         
-        if (userAgent.includes('chrome')) {
-            message += 'Click the menu (⋮) and select "Install Do App"';
-        } else if (userAgent.includes('firefox')) {
-            message += 'Click the menu (≡) and look for the "Install" option';
-        } else if (userAgent.includes('safari')) {
-            message += 'Click the share button and select "Add to Home Screen"';
-        } else {
-            message += 'Make sure you\'re using a supported browser and accessing the site over HTTPS.';
+        try {
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+            console.log(`👉 Installation ${outcome}`);
+            
+            if (outcome === 'accepted') {
+                console.log('🎉 App was installed');
+                installBtn.style.display = 'none';
+            }
+        } catch (error) {
+            console.error('Installation error:', error);
         }
         
-        alert(message);
-        return;
+        // Clear the deferredPrompt
+        deferredPrompt = null;
+    } else {
+        // Show installation instructions based on platform
+        const userAgent = navigator.userAgent.toLowerCase();
+        
+        if (/iphone|ipad|ipod/.test(userAgent)) {
+            alert('To install: tap the share button (□↑) and select "Add to Home Screen"');
+        } else if (/android/.test(userAgent)) {
+            if (!userAgent.includes('chrome')) {
+                alert('Please open this site in Chrome to install the app');
+            } else {
+                alert('Tap the menu (⋮) and select "Install app" or "Add to Home screen"');
+            }
+        } else {
+            alert('Installation is currently not available. Please make sure you\'re using a supported mobile browser.');
+        }
     }
-    
-    // Show the install prompt
-    deferredPrompt.prompt();
-    
-    // Wait for the user to respond to the prompt
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`👉 Installation ${outcome}`);
-    
-    // We've used the prompt, and can't use it again, so clear it
-    deferredPrompt = null;
-    
-    // Hide the install button
-    installBtn.style.display = 'none';
 });
 
-// Hide the install button if app is already installed
+// Hide install button after successful installation
 window.addEventListener('appinstalled', (event) => {
     console.log('🎉 App was installed');
     installBtn.style.display = 'none';
