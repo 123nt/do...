@@ -1,13 +1,12 @@
 // Register Service Worker
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./service-worker.js')
-      .then(registration => {
-        console.log('Service Worker registered:', registration);
-      })
-      .catch(error => {
-        console.log('Service Worker registration failed:', error);
-      });
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('service-worker.js');
+      console.log('Service Worker registered:', registration);
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
+    }
   });
 }
 
@@ -21,88 +20,64 @@ const todoList = document.getElementById("todoList");
 const installBtn = document.getElementById('installBtn');
 let deferredPrompt;
 
-// Show install button by default on supported platforms
-const showInstallButton = () => {
-  const userAgent = navigator.userAgent.toLowerCase();
-  const isMobile = /iphone|ipad|ipod|android/.test(userAgent);
+// Always show install button initially unless already installed
+const checkInstallState = () => {
   const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
-                      window.navigator.standalone === true || 
+                      window.navigator.standalone || 
                       document.referrer.includes('android-app://');
   
-  if (isMobile && !isStandalone) {
-    installBtn.style.display = 'flex';
-  } else {
+  if (isStandalone) {
     installBtn.style.display = 'none';
+  } else {
+    installBtn.style.display = 'flex';
   }
 };
 
-// Show install button initially
-showInstallButton();
-
-// Listen for beforeinstallprompt event
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the mini-infobar from appearing on mobile
-  e.preventDefault();
-  // Stash the event so it can be triggered later
-  deferredPrompt = e;
-  // Show the install button
-  installBtn.style.display = 'flex';
-  console.log('App is installable');
-});
+// Check install state immediately
+checkInstallState();
 
 // Handle installation button click
 installBtn.addEventListener('click', async () => {
   if (deferredPrompt) {
-    // Show the install prompt
     deferredPrompt.prompt();
-    
-    try {
-      // Wait for the user to respond to the prompt
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log(`Installation ${outcome}`);
-      
-      if (outcome === 'accepted') {
-        console.log('App was installed');
-        installBtn.style.display = 'none';
-      }
-    } catch (error) {
-      console.error('Installation error:', error);
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User response to install prompt: ${outcome}`);
+    if (outcome === 'accepted') {
+      installBtn.style.display = 'none';
     }
-    
-    // Clear the deferredPrompt
     deferredPrompt = null;
   } else {
-    // Show installation instructions based on platform
-    const userAgent = navigator.userAgent.toLowerCase();
-    
-    if (/iphone|ipad|ipod/.test(userAgent)) {
+    // Show manual installation instructions
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod')) {
       alert('To install: tap the share button and select "Add to Home Screen"');
-    } else if (/android/.test(userAgent)) {
-      if (!userAgent.includes('chrome')) {
+    } else if (ua.includes('android')) {
+      if (!ua.includes('chrome')) {
         alert('Please open this site in Chrome to install the app');
       } else {
-        alert('Tap the menu and select "Install app" or "Add to Home screen"');
+        alert('Tap the menu (⋮) and select "Add to Home screen"');
       }
     } else {
-      alert('Installation is currently not available. Please make sure you\'re using a supported mobile browser.');
+      alert('To install this app, use a mobile device with a supported browser.');
     }
   }
 });
 
-// Hide install button after successful installation
-window.addEventListener('appinstalled', (event) => {
-  console.log('App was installed');
+// Store the prompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  checkInstallState();
+});
+
+// Hide button after installation
+window.addEventListener('appinstalled', () => {
   installBtn.style.display = 'none';
   deferredPrompt = null;
 });
 
-// Check if launched as standalone and update button visibility
-window.addEventListener('DOMContentLoaded', () => {
-  showInstallButton();
-  if (window.matchMedia('(display-mode: standalone)').matches) {
-    console.log('App launched as standalone');
-  }
-});
+// Check install state when page loads
+window.addEventListener('DOMContentLoaded', checkInstallState);
 
 // Load todos from localStorage
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
