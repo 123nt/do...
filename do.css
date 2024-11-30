@@ -18,7 +18,7 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
-    background: #ffffff;
+    background: #f5f5f5;
     min-height: 100vh;
     padding-top: 60px;
     transition: background-color 0.3s ease;
@@ -39,9 +39,9 @@ input, textarea, button {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    background-color: #ffffff;
+    background-color: #f5f5f5;
     z-index: 1000;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .navbar-brand {
@@ -53,9 +53,9 @@ input, textarea, button {
 }
 
 .install-btn {
-    background: #f8f9fa;
+    background: transparent;
     color: #333;
-    border: 1px solid #e9ecef;
+    border: 1px solid #ddd;
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
@@ -72,8 +72,8 @@ input, textarea, button {
 }
 
 .install-btn:hover {
-    background: #e9ecef;
-    border-color: #dee2e6;
+    background: rgba(0, 0, 0, 0.05);
+    border-color: #ccc;
 }
 
 main {
@@ -95,20 +95,19 @@ main {
     background-color: #ffffff;
     margin-bottom: 0.8rem;
     border-radius: 8px;
-    border: 1px solid #e9ecef;
+    border: none;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 1;
     transform: translateY(0);
     font-size: 1.1rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .todo-item:hover {
-    background-color: #f8f9fa;
-    border-color: #dee2e6;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    background-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .todo-item.completed {
@@ -121,7 +120,7 @@ main {
     margin-right: 1rem;
     width: 18px;
     height: 18px;
-    border: 2px solid #adb5bd;
+    border: 2px solid #2d2d2d;
     border-radius: 4px;
     cursor: pointer;
     flex-shrink: 0;
@@ -129,7 +128,7 @@ main {
 
 .todo-item .delete-btn {
     margin-left: auto;
-    color: #adb5bd;
+    color: #808080;
     border: none;
     background: none;
     cursor: pointer;
@@ -140,7 +139,7 @@ main {
 
 .todo-item .delete-btn:hover {
     opacity: 1;
-    color: #495057;
+    color: #2d2d2d;
 }
 
 .add-button {
@@ -150,7 +149,7 @@ main {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: #4dabf7;
+    background: #2d2d2d;
     color: white;
     border: none;
     cursor: pointer;
@@ -158,39 +157,35 @@ main {
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    box-shadow: 0 2px 8px rgba(77, 171, 247, 0.2);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-decoration: none;
 }
 
 .add-button:hover {
     transform: scale(1.05);
-    background: #339af0;
-    box-shadow: 0 4px 12px rgba(77, 171, 247, 0.3);
+    background: #404040;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
 }
 
 @media (max-width: 768px) {
     body {
         padding: 0.5rem;
         font-size: 14px;
-        background: #ffffff;
+        padding-top: 60px;
     }
 
     .navbar {
         padding: 0.5rem;
-        background: #ffffff;
     }
 
     .navbar-brand {
         font-size: 1.2rem;
-        color: #495057;
     }
 
     .install-btn {
         padding: 6px 10px;
         font-size: 12px;
-        background: #f8f9fa;
-        border-color: #e9ecef;
     }
     
     .todo-list {
@@ -200,8 +195,6 @@ main {
     .todo-item {
         padding: 0.6rem;
         font-size: 1rem;
-        background: #ffffff;
-        border: 1px solid #e9ecef;
     }
 
     .add-button {
@@ -209,7 +202,6 @@ main {
         right: 1.5rem;
         width: 50px;
         height: 50px;
-        background: #4dabf7;
     }
 }
 
@@ -217,25 +209,20 @@ main {
     body {
         padding: 0.5rem;
         padding-top: 50px;
-        background: #ffffff;
     }
 
     .navbar {
         padding: 0.5rem;
         height: 50px;
-        background: #ffffff;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
 
     .navbar-brand {
         font-size: 1.1rem;
-        color: #495057;
     }
 
     .install-btn {
         padding: 4px 8px;
         font-size: 11px;
-        background: #f8f9fa;
     }
 
     .todo-list {
@@ -246,15 +233,12 @@ main {
         padding: 0.5rem;
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
-        background: #ffffff;
-        border: 1px solid #e9ecef;
     }
 
     .todo-item input[type="checkbox"] {
         width: 16px;
         height: 16px;
         margin-right: 0.5rem;
-        border-color: #adb5bd;
     }
 
     .add-button {
@@ -263,8 +247,20 @@ main {
         bottom: 1rem;
         right: 1rem;
         font-size: 1.2rem;
-        background: #4dabf7;
     }
+}
+
+/* Animations */
+.todo-item input[type="checkbox"] {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.todo-item .delete-btn {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.add-button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Dark mode support */
