@@ -4,23 +4,11 @@
   "description": "A task management application",
   "start_url": "/do.html",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#ffffff",
   "theme_color": "#000000",
   "categories": ["productivity", "utilities"],
-  "screenshots": [
-    {
-      "src": "screenshots/mobile.png",
-      "sizes": "750x1334",
-      "type": "image/png",
-      "platform": "narrow"
-    },
-    {
-      "src": "screenshots/desktop.png",
-      "sizes": "1280x800",
-      "type": "image/png",
-      "platform": "wide"
-    }
-  ],
+  "prefer_related_applications": false,
   "shortcuts": [
     {
       "name": "New Task",
