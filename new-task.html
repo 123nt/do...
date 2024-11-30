@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>do... | details</title>
+    <title>do... | new</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -23,44 +23,33 @@
       </nav>
     </header>
 
-    <main class="task-details">
-      <form id="taskForm" class="task-form">
-        <div class="task-header">
-          <input
-            type="text"
-            id="taskName"
-            class="editable-title"
-            placeholder="Task name"
-            readonly
-            aria-label="Task name"
-          />
-          <button id="editButton" class="edit-button" aria-label="Edit task">
-            <i class="fas fa-edit"></i>
-          </button>
-        </div>
+    <main class="new-task">
+      <form id="newTaskForm" class="task-form">
+        <input
+          type="text"
+          id="taskName"
+          class="editable-title"
+          placeholder="Task name"
+          aria-label="Task name"
+          autofocus
+        />
 
         <textarea
           id="taskContent"
           class="editable-content"
           placeholder="Task details"
-          readonly
           aria-label="Task details"
         ></textarea>
+
+        <footer class="action-buttons">
+          <button type="submit" class="save-changes-btn" aria-label="Save task">
+            <i class="fas fa-check"></i>
+            <span>Add Task</span>
+          </button>
+        </footer>
       </form>
     </main>
 
-    <div class="button-container">
-      <button
-        id="saveChangesBtn"
-        class="save-changes-btn"
-        style="display: none"
-        aria-label="Save changes"
-      >
-        <i class="fas fa-save"></i>
-        <span>Save</span>
-      </button>
-    </div>
-
-    <script src="task-details.js"></script>
+    <script src="new-task.js"></script>
   </body>
 </html>

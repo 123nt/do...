@@ -1,111 +1,132 @@
+/* Base Styles with Smooth Scrolling */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+}
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      sans-serif;
-    line-height: 1.6;
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
     color: #2d2d2d;
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
     background: #f5f5f5;
     min-height: 100vh;
-  }
+    padding-top: 60px;
+    transition: background-color 0.3s ease;
+}
 
-  .page-header {
-    text-align: left;
-    margin-bottom: 2rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #e0e0e0;
+/* Smooth Input Animations */
+input, textarea, button {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Navbar with Smooth Shadow */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: #f5f5f5;
+    color: #2d2d2d;
     display: flex;
     align-items: center;
-  }
+    justify-content: center;
+    padding: 0 2rem;
+    z-index: 1000;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+}
 
-  .page-header h1 {
-    font-size: 2rem;
+.navbar-brand {
+    font-size: 1.3rem;
     font-weight: 300;
     color: #2d2d2d;
-    margin: 0;
-  }
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
 
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 300;
-    margin-bottom: 2rem;
-    color: #2d2d2d;
-  }
+.navbar-brand:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+}
 
-  p {
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-    color: #2d2d2d;
-  }
-
-  .container {
-    padding: 1rem;
-    background: none;
-    box-shadow: none;
-    border: none;
-  }
-
-  .todo-list {
+/* Todo Items with Smooth Transitions */
+.todo-list {
     list-style: none;
-    margin-top: 1rem;
-  }
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2.5rem auto 0;
+}
 
-  .todo-item {
+.todo-item {
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: 0.8rem;
     background-color: #f5f5f5;
     margin-bottom: 0.8rem;
     border-radius: 8px;
-    transition: all 0.3s ease;
     border: none;
     cursor: pointer;
-  }
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: translateY(0);
+    font-size: 0.9rem;
+}
 
-  .todo-item:hover {
+.todo-item:hover {
     background-color: #fafafa;
     transform: translateY(-2px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  }
+}
 
-  .todo-item.completed {
+.todo-item.completed {
     text-decoration: line-through;
     opacity: 0.7;
     background-color: #fafafa;
-  }
+    transition: opacity 0.3s ease, background-color 0.3s ease;
+}
 
-  .todo-item input[type="checkbox"] {
+/* Smooth Checkbox Animation */
+.todo-item input[type="checkbox"] {
     margin-right: 1rem;
     width: 18px;
     height: 18px;
     border: 2px solid #2d2d2d;
     border-radius: 4px;
     cursor: pointer;
-  }
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .todo-item .delete-btn {
+/* Smooth Delete Button Animation */
+.todo-item .delete-btn {
     margin-left: auto;
     color: #808080;
     border: none;
     background: none;
     cursor: pointer;
     opacity: 0.7;
-    transition: all 0.3s ease;
-  }
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .todo-item .delete-btn:hover {
+.todo-item .delete-btn:hover {
     opacity: 1;
     color: #2d2d2d;
-  }
+    transform: scale(1.1);
+}
 
-  .add-button {
+/* Smooth Add Button Animation */
+.add-button {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
@@ -119,18 +140,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 24px;
+    font-size: 0.85rem;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-  }
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .add-button:hover {
-    transform: scale(1.05);
+.add-button:hover {
+    transform: scale(1.05) translateY(-2px);
     background: #404040;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
+}
 
-  .modal {
+/* Smooth Modal Animation */
+.modal {
     display: none;
     position: fixed;
     top: 0;
@@ -140,9 +162,15 @@
     background-color: rgba(0, 0, 0, 0.5);
     align-items: center;
     justify-content: center;
-  }
+    opacity: 0;
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .modal-content {
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
     background: #ffffff;
     padding: 2rem;
     border-radius: 12px;
@@ -150,138 +178,414 @@
     max-width: 500px;
     border: 1px solid #eeeeee;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  }
+    transform: translateY(20px);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .modal input[type="text"],
-  .modal textarea {
-    width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 1rem;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    background: #ffffff;
-    transition: all 0.3s ease;
-    color: #2d2d2d;
-    font-family: inherit;
-  }
+.modal.show .modal-content {
+    transform: translateY(0);
+}
 
-  .modal textarea {
-    min-height: 100px;
-    resize: vertical;
-  }
+/* Smooth Input Animations */
+.editable-title, .editable-content {
+    border: none;
+    background: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-  .modal input[type="text"]:focus,
-  .modal textarea:focus {
+.editable-title:focus, .editable-content:focus {
     outline: none;
     border-color: #2d2d2d;
     box-shadow: 0 0 0 2px rgba(45, 45, 45, 0.1);
-  }
+}
 
-  .todo-text {
+/* Smooth Save Button Animation */
+.button-container {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 100;
+}
+
+.save-changes-btn {
+    background: #2d2d2d;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.save-changes-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Task Form Animations */
+.task-form {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.task-form .editable-title,
+.task-form .editable-content {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.task-form .editable-title:focus {
+    border-bottom-color: #2d2d2d;
+}
+
+.task-form .editable-content:focus {
+    border-left-color: #2d2d2d;
+}
+
+/* Page Transition Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main {
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Media Queries with Smooth Transitions */
+@media (max-width: 600px) {
+    body {
+        padding: 1rem;
+    }
+
+    .container {
+        padding: 1.5rem;
+    }
+
+    .add-button {
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .navbar {
+        padding: 0 1rem;
+    }
+
+    .todo-list {
+        padding: 0 1rem;
+    }
+}
+
+.page-header {
+    text-align: left;
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.page-header h1 {
+    font-size: 1.75rem;
+    font-weight: 300;
+    color: #2d2d2d;
+    margin: 0;
+}
+
+p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: #2d2d2d;
+}
+
+.container {
+    padding: 1rem;
+    background: none;
+    box-shadow: none;
+    border: none;
+}
+
+.todo-text {
     flex: 1;
     margin-right: 1rem;
-  }
+}
 
-  .todo-header {
+.todo-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.5rem 0;
-  }
+}
 
-  .todo-name {
+.todo-name {
     font-weight: 500;
     color: #2d2d2d;
     flex: 1;
-  }
+}
 
-  .todo-content {
+.todo-content {
     margin-top: 0.5rem;
     font-size: 0.9rem;
     color: #666;
     padding: 0.5rem 0;
     border-top: 1px solid #eee;
     transition: all 0.3s ease;
-  }
+}
 
-  .todo-content.hidden {
+.todo-content.hidden {
     display: none;
-  }
+}
 
-  .todo-content p {
+.todo-content p {
     margin: 0;
     white-space: pre-wrap;
-  }
+}
 
-  .modal-buttons {
+.modal-buttons {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
-  }
+}
 
-  .modal button {
+.modal button {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-  }
+}
 
-  .modal .save-btn {
+.modal .save-btn {
     background: #2d2d2d;
     color: #ffffff;
     padding: 0.8rem 1.5rem;
     border-radius: 6px;
     transition: all 0.3s ease;
-  }
+}
 
-  .modal .save-btn:hover {
+.modal .save-btn:hover {
     background: #404040;
     transform: translateY(-1px);
-  }
+}
 
-  .modal .cancel-btn {
+.modal .cancel-btn {
     background: #f0f0f0;
     color: #2d2d2d;
     padding: 0.8rem 1.5rem;
     border-radius: 6px;
     transition: all 0.3s ease;
-  }
+}
 
-  .modal .cancel-btn:hover {
+.modal .cancel-btn:hover {
     background: #e0e0e0;
-  }
+}
 
-  .back-button {
+.back-button {
     color: #2d2d2d;
     text-decoration: none;
     font-size: 1.2rem;
     margin-right: 1rem;
     transition: all 0.3s ease;
-  }
+}
 
-  .back-button:hover {
+.back-button:hover {
     opacity: 0.7;
-  }
+}
 
-  .task-details {
-    background: #ffffff;
+.task-details {
+    background: none;
     padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-    margin-top: 2rem;
-  }
-
-  .task-header {
     display: flex;
+    border-radius: 0;
+    box-shadow: none;
+    margin-top: 1rem;
+    border: none;
+}
+
+.task-details .task-form {
+    width: 100%;
+}
+
+.editable-title {
+    width: 100%;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: #2d2d2d;
+    border: none;
+    background: none;
+    padding: 0.5rem 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.editable-title:not([readonly]):hover,
+.editable-title:not([readonly]):focus {
+    outline: none;
+    border-bottom: 2px solid #2d2d2d;
+}
+
+.editable-content {
+    width: 100%;
+    min-height: 200px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #2d2d2d;
+    border: none;
+    border-radius: 0;
+    padding: 1rem 0;
+    margin: 0;
+    resize: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-family: inherit;
+    background: none;
+}
+
+.editable-content:not([readonly]):hover,
+.editable-content:not([readonly]):focus {
+    outline: none;
+    border-left: 2px solid #2d2d2d;
+    padding-left: 1rem;
+}
+
+.action-buttons {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.save-changes-btn {
+    background: #2d2d2d;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.9;
+}
+
+.save-changes-btn:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.new-task {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+}
+
+.task-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    padding-bottom: 80px;
+}
+
+.task-form .editable-title {
+    font-size: 1.4rem;
+    font-weight: 300;
+    border: none;
+    background: none;
+    padding: 0.5rem 0;
+    width: 100%;
+    color: #2d2d2d;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.task-form .editable-title:focus {
+    outline: none;
+    border-bottom-color: #2d2d2d;
+}
+
+.task-form .editable-content {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    flex: 1;
+    min-height: 200px;
+    border: none;
+    background: none;
+    padding: 0.5rem 0;
+    width: 100%;
+    color: #2d2d2d;
+    resize: none;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.task-form .editable-content:focus {
+    outline: none;
+    padding-left: 1rem;
+    border-left-color: #2d2d2d;
+}
+
+.task-form .action-buttons {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    padding: 0;
+    z-index: 100;
+}
+
+.task-form .save-changes-btn {
+    background: #2d2d2d;
+    color: white;
+    border: none;
+    padding: 0.7rem 1.3rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.task-form .save-changes-btn:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.task-header {
+    display: flex;
+    flex: 1;
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
-  }
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1rem;
+}
 
-  .edit-button {
+.edit-button {
     background: none;
-    border: none;
-    color: #666;
+    color: #2d2d2d;
     cursor: pointer;
     padding: 0.5rem;
     border-radius: 50%;
@@ -290,129 +594,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-  }
-
-  .edit-button:hover {
-    background: #f5f5f5;
-    color: #2d2d2d;
-  }
-
-  .edit-button.active {
-    background: #2d2d2d;
-    color: white;
-  }
-
-  .edit-button i {
-    font-size: 1.2rem;
-  }
-
-  .editable-title {
-    width: 100%;
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: #2d2d2d;
     border: none;
-    background: transparent;
-    padding: 0.5rem 0;
-    border-bottom: 2px solid transparent;
-    transition: all 0.3s ease;
-  }
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 0.5;
+}
 
-  .editable-title:not([readonly]):hover,
-  .editable-title:not([readonly]):focus {
-    border-bottom-color: #2d2d2d;
-    outline: none;
-  }
+.edit-button:hover {
+    opacity: 1;
+    background: rgba(45, 45, 45, 0.1);
+}
 
-  .editable-content {
-    width: 100%;
-    min-height: 150px;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #666;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    resize: none;
-    transition: all 0.3s ease;
-    font-family: inherit;
-    background-color: transparent;
-  }
-
-  .editable-content:not([readonly]):hover,
-  .editable-content:not([readonly]):focus {
-    border-color: #2d2d2d;
-    outline: none;
-  }
-
-  .editable-title[readonly],
-  .editable-content[readonly] {
-    cursor: default;
-  }
-
-  .action-buttons {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .save-changes-btn {
-    background: #2d2d2d;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
-  }
-
-  .save-changes-btn:hover {
-    background: #404040;
-    transform: translateY(-1px);
-  }
-
-  .save-changes-btn.saved {
-    background: #4CAF50;
-  }
-
-  .save-changes-btn i {
-    font-size: 1rem;
-  }
-
-  .task-details h2 {
-    color: #2d2d2d;
-    margin-bottom: 1.5rem;
-    font-weight: 500;
-  }
-
-  .task-content {
-    color: #666;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    white-space: pre-wrap;
-  }
-
-  @media (max-width: 600px) {
-    body {
-      padding: 1rem;
-    }
-
-    .container {
-      padding: 1.5rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    .add-button {
-      width: 50px;
-      height: 50px;
-      font-size: 20px;
-    }
-  }
+.todo-list {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 2.5rem auto 0;
+    list-style: none;
+}

@@ -11,8 +11,7 @@ let todos = JSON.parse(localStorage.getItem("todos")) || [];
 renderTodos();
 
 addButton.addEventListener("click", () => {
-  modal.style.display = "flex";
-  taskNameInput.focus();
+  window.location.href = 'new-task.html';
 });
 
 cancelButton.addEventListener("click", () => {

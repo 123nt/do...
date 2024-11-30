@@ -1,108 +1,182 @@
-// Get task ID from URL parameters
-const urlParams = new URLSearchParams(window.location.search);
-const taskId = urlParams.get('id');
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('taskForm');
+  const taskNameInput = document.getElementById('taskName');
+  const taskContentInput = document.getElementById('taskContent');
+  const saveChangesBtn = document.getElementById('saveChangesBtn');
+  const editButton = document.getElementById('editButton');
 
-// Get DOM elements
-const taskNameInput = document.getElementById('taskName');
-const taskContentInput = document.getElementById('taskContent');
-const saveChangesBtn = document.getElementById('saveChangesBtn');
-const editButton = document.getElementById('editButton');
+  // Get task ID from URL
+  const params = new URLSearchParams(window.location.search);
+  const taskId = params.get('id');
 
-// Track edit mode
-let isEditMode = false;
+  // Function to handle automatic dot insertion
+  function handleDotInsertion(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      
+      const cursorPos = taskContentInput.selectionStart;
+      const content = taskContentInput.value;
+      const beforeCursor = content.substring(0, cursorPos);
+      const afterCursor = content.substring(cursorPos);
 
-// Get task details from localStorage
-let todos = JSON.parse(localStorage.getItem('todos')) || [];
-const task = todos.find(todo => todo.id.toString() === taskId);
-
-function toggleEditMode(enabled) {
-    isEditMode = enabled;
-    taskNameInput.readOnly = !enabled;
-    taskContentInput.readOnly = !enabled;
-    saveChangesBtn.style.display = enabled ? 'flex' : 'none';
-    editButton.innerHTML = enabled ? '<i class="fas fa-times"></i>' : '<i class="fas fa-edit"></i>';
-    editButton.classList.toggle('active', enabled);
-
-    if (enabled) {
-        taskNameInput.focus();
+      // Add new line with dot
+      taskContentInput.value = beforeCursor + '\n• ' + afterCursor;
+      
+      // Move cursor after the dot
+      taskContentInput.selectionStart = cursorPos + 3;
+      taskContentInput.selectionEnd = cursorPos + 3;
     }
-}
+  }
 
-if (task) {
-    // Update page title and form fields
-    document.title = `Task: ${task.name}`;
-    taskNameInput.value = task.name;
-    taskContentInput.value = task.content || '';
-
-    // Auto-resize textarea as content changes
-    function autoResize(textarea) {
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
+  // Add dot to empty lines when content is set to editable
+  function formatExistingContent() {
+    if (!taskContentInput.value) {
+      taskContentInput.value = '• ';
+      taskContentInput.selectionStart = 2;
+      taskContentInput.selectionEnd = 2;
+      return;
     }
 
-    taskContentInput.addEventListener('input', () => {
-        autoResize(taskContentInput);
+    // Format existing content with dots
+    const lines = taskContentInput.value.split('\n');
+    const formattedLines = lines.map(line => {
+      line = line.trim();
+      return line.startsWith('•') ? line : (line ? '• ' + line : line);
     });
+    taskContentInput.value = formattedLines.join('\n');
+  }
 
-    // Initial resize
+  // Handle paste event to add dots to pasted content
+  taskContentInput.addEventListener('paste', (e) => {
+    if (taskContentInput.readOnly) return;
+    
+    e.preventDefault();
+    const pastedText = (e.clipboardData || window.clipboardData).getData('text');
+    const lines = pastedText.split('\n');
+    const formattedText = lines.map(line => line.trim()).map(line => {
+      // Don't add dot if line already starts with one
+      if (line.startsWith('•')) return line;
+      return line ? '• ' + line : line;
+    }).join('\n');
+
+    const cursorPos = taskContentInput.selectionStart;
+    const content = taskContentInput.value;
+    const beforeCursor = content.substring(0, cursorPos);
+    const afterCursor = content.substring(cursorPos);
+
+    taskContentInput.value = beforeCursor + formattedText + afterCursor;
+    
+    // Move cursor to end of pasted text
+    const newPosition = cursorPos + formattedText.length;
+    taskContentInput.selectionStart = newPosition;
+    taskContentInput.selectionEnd = newPosition;
+  });
+
+  // Load task data
+  if (taskId) {
+    const todos = JSON.parse(localStorage.getItem('todos') || '[]');
+    const task = todos.find(t => t.id.toString() === taskId);
+    
+    if (task) {
+      taskNameInput.value = task.name;
+      taskContentInput.value = task.content;
+      document.title = `Task: ${task.name}`;
+    } else {
+      window.location.href = 'do.html';
+    }
+  } else {
+    window.location.href = 'do.html';
+  }
+
+  // Toggle edit mode
+  let isEditing = false;
+  
+  function toggleEditMode() {
+    isEditing = !isEditing;
+    taskNameInput.readOnly = !isEditing;
+    taskContentInput.readOnly = !isEditing;
+    saveChangesBtn.style.display = isEditing ? 'flex' : 'none';
+    
+    if (isEditing) {
+      formatExistingContent();
+      taskContentInput.addEventListener('keydown', handleDotInsertion);
+    } else {
+      taskContentInput.removeEventListener('keydown', handleDotInsertion);
+    }
+  }
+
+  editButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleEditMode();
+    if (isEditing) {
+      taskNameInput.focus();
+    }
+  });
+
+  // Auto-resize textarea as content changes
+  function autoResize(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  taskContentInput.addEventListener('input', () => {
     autoResize(taskContentInput);
+  });
 
-    // Toggle edit mode
-    editButton.addEventListener('click', () => {
-        toggleEditMode(!isEditMode);
-    });
+  // Initial resize
+  autoResize(taskContentInput);
 
-    // Save changes
-    saveChangesBtn.addEventListener('click', () => {
-        const newName = taskNameInput.value.trim();
-        const newContent = taskContentInput.value.trim();
+  // Handle form submission
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-        if (newName) {
-            // Update task in todos array
-            todos = todos.map(todo => {
-                if (todo.id.toString() === taskId) {
-                    return {
-                        ...todo,
-                        name: newName,
-                        content: newContent
-                    };
-                }
-                return todo;
-            });
+    const taskName = taskNameInput.value.trim();
+    const taskContent = taskContentInput.value.trim();
 
-            // Save to localStorage
-            localStorage.setItem('todos', JSON.stringify(todos));
+    if (!taskName) {
+      taskNameInput.focus();
+      return;
+    }
 
-            // Show success feedback
-            const saveBtn = document.getElementById('saveChangesBtn');
-            saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
-            saveBtn.classList.add('saved');
+    // Get existing todos
+    const todos = JSON.parse(localStorage.getItem('todos') || '[]');
+    const taskIndex = todos.findIndex(t => t.id.toString() === taskId);
 
-            // Reset button after 2 seconds
-            setTimeout(() => {
-                saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
-                saveBtn.classList.remove('saved');
-                toggleEditMode(false);
-            }, 2000);
+    if (taskIndex !== -1) {
+      // Update existing todo
+      todos[taskIndex] = {
+        ...todos[taskIndex],
+        name: taskName,
+        content: taskContent
+      };
 
-            // Update page title
-            document.title = `Task: ${newName}`;
-        }
-    });
+      // Save back to localStorage
+      localStorage.setItem('todos', JSON.stringify(todos));
 
-    // Save with Ctrl+S when in edit mode
-    document.addEventListener('keydown', (e) => {
-        if (isEditMode && e.ctrlKey && e.key === 's') {
-            e.preventDefault();
-            saveChangesBtn.click();
-        }
-    });
-} else {
-    // Handle case when task is not found
-    taskNameInput.value = 'Task not found';
-    taskContentInput.value = 'The requested task could not be found.';
-    taskNameInput.disabled = true;
-    taskContentInput.disabled = true;
-    saveChangesBtn.disabled = true;
-    editButton.disabled = true;
-}
+      // Exit edit mode
+      toggleEditMode();
+
+      // Show success feedback
+      const saveBtn = document.getElementById('saveChangesBtn');
+      saveBtn.innerHTML = '<i class="fas fa-check"></i> Saved!';
+      saveBtn.classList.add('saved');
+
+      // Reset button after 2 seconds
+      setTimeout(() => {
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+        saveBtn.classList.remove('saved');
+      }, 2000);
+
+      // Update page title
+      document.title = `Task: ${taskName}`;
+    }
+  });
+
+  // Save with Ctrl+S when in edit mode
+  document.addEventListener('keydown', (e) => {
+    if (isEditing && e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+      saveChangesBtn.click();
+    }
+  });
+});
