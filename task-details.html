@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task Details</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="do.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <div class="page-header">
+          <a href="do.html" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+          </a>
+          <h1>do...</h1>
+        </div>
+      </div>
+    </header>
+    <div class="container">
+      <div class="task-details">
+        <div class="task-header">
+          <input
+            type="text"
+            id="taskName"
+            class="editable-title"
+            placeholder="Enter task name..."
+            readonly
+          />
+          <button id="editButton" class="edit-button">
+            <i class="fas fa-edit"></i>
+          </button>
+        </div>
+        <textarea
+          id="taskContent"
+          class="editable-content"
+          placeholder="Enter task content..."
+          readonly
+        ></textarea>
+        <div class="action-buttons">
+          <button
+            id="saveChangesBtn"
+            class="save-changes-btn"
+            style="display: none"
+          >
+            <i class="fas fa-save"></i> Save Changes
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="task-details.js"></script>
+  </body>
+</html>
