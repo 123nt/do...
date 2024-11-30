@@ -1,7 +1,7 @@
 // Register Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
+    navigator.serviceWorker.register('./service-worker.js')
       .then(registration => {
         console.log('Service Worker registered:', registration);
       })
@@ -18,83 +18,90 @@ const taskContentInput = document.getElementById("taskContentInput");
 const saveButton = document.getElementById("saveButton");
 const cancelButton = document.getElementById("cancelButton");
 const todoList = document.getElementById("todoList");
-let deferredPrompt;
 const installBtn = document.getElementById('installBtn');
+let deferredPrompt;
 
-// Initially hide the install button
-installBtn.style.display = 'none';
-
-// Check if app is running in standalone mode
-if (window.matchMedia('(display-mode: standalone)').matches || 
-    (window.navigator.standalone === true) || 
-    document.referrer.includes('android-app://')) {
-    // App is installed
+// Show install button by default on supported platforms
+const showInstallButton = () => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isMobile = /iphone|ipad|ipod|android/.test(userAgent);
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                      window.navigator.standalone === true || 
+                      document.referrer.includes('android-app://');
+  
+  if (isMobile && !isStandalone) {
+    installBtn.style.display = 'flex';
+  } else {
     installBtn.style.display = 'none';
-}
+  }
+};
+
+// Show install button initially
+showInstallButton();
 
 // Listen for beforeinstallprompt event
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the mini-infobar from appearing on mobile
-    e.preventDefault();
-    // Stash the event so it can be triggered later
-    deferredPrompt = e;
-    // Show the install button
-    installBtn.style.display = 'flex';
-    
-    console.log('📱 App is installable');
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  // Stash the event so it can be triggered later
+  deferredPrompt = e;
+  // Show the install button
+  installBtn.style.display = 'flex';
+  console.log('App is installable');
 });
 
 // Handle installation button click
 installBtn.addEventListener('click', async () => {
-    if (deferredPrompt) {
-        // Show the install prompt
-        deferredPrompt.prompt();
-        
-        try {
-            // Wait for the user to respond to the prompt
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`👉 Installation ${outcome}`);
-            
-            if (outcome === 'accepted') {
-                console.log('🎉 App was installed');
-                installBtn.style.display = 'none';
-            }
-        } catch (error) {
-            console.error('Installation error:', error);
-        }
-        
-        // Clear the deferredPrompt
-        deferredPrompt = null;
-    } else {
-        // Show installation instructions based on platform
-        const userAgent = navigator.userAgent.toLowerCase();
-        
-        if (/iphone|ipad|ipod/.test(userAgent)) {
-            alert('To install: tap the share button (□↑) and select "Add to Home Screen"');
-        } else if (/android/.test(userAgent)) {
-            if (!userAgent.includes('chrome')) {
-                alert('Please open this site in Chrome to install the app');
-            } else {
-                alert('Tap the menu (⋮) and select "Install app" or "Add to Home screen"');
-            }
-        } else {
-            alert('Installation is currently not available. Please make sure you\'re using a supported mobile browser.');
-        }
+  if (deferredPrompt) {
+    // Show the install prompt
+    deferredPrompt.prompt();
+    
+    try {
+      // Wait for the user to respond to the prompt
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`Installation ${outcome}`);
+      
+      if (outcome === 'accepted') {
+        console.log('App was installed');
+        installBtn.style.display = 'none';
+      }
+    } catch (error) {
+      console.error('Installation error:', error);
     }
+    
+    // Clear the deferredPrompt
+    deferredPrompt = null;
+  } else {
+    // Show installation instructions based on platform
+    const userAgent = navigator.userAgent.toLowerCase();
+    
+    if (/iphone|ipad|ipod/.test(userAgent)) {
+      alert('To install: tap the share button and select "Add to Home Screen"');
+    } else if (/android/.test(userAgent)) {
+      if (!userAgent.includes('chrome')) {
+        alert('Please open this site in Chrome to install the app');
+      } else {
+        alert('Tap the menu and select "Install app" or "Add to Home screen"');
+      }
+    } else {
+      alert('Installation is currently not available. Please make sure you\'re using a supported mobile browser.');
+    }
+  }
 });
 
 // Hide install button after successful installation
 window.addEventListener('appinstalled', (event) => {
-    console.log('🎉 App was installed');
-    installBtn.style.display = 'none';
-    deferredPrompt = null;
+  console.log('App was installed');
+  installBtn.style.display = 'none';
+  deferredPrompt = null;
 });
 
-// Check if launched as standalone
+// Check if launched as standalone and update button visibility
 window.addEventListener('DOMContentLoaded', () => {
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-        console.log('🏠 App launched as standalone');
-    }
+  showInstallButton();
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('App launched as standalone');
+  }
 });
 
 // Load todos from localStorage

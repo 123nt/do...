@@ -1,14 +1,14 @@
 const CACHE_NAME = 'do-app-v1';
 const urlsToCache = [
-  '/',
-  '/do.html',
-  '/do.css',
-  '/do.js',
-  '/new-task.html',
-  '/new-task.js',
-  '/task-details.html',
-  '/task-details.js',
-  '/manifest.json',
+  './',
+  './do.html',
+  './do.css',
+  './do.js',
+  './new-task.html',
+  './new-task.js',
+  './task-details.html',
+  './task-details.js',
+  './manifest.json',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
