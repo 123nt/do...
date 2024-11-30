@@ -86,6 +86,7 @@ main {
     padding: 1rem;
     max-width: 800px;
     margin: 1.5rem auto 0;
+    color: #ffffff !important;
 }
 
 .todo-item {
@@ -101,6 +102,7 @@ main {
     opacity: 1;
     transform: translateY(0);
     font-size: 1.1rem;
+    color: #ffffff !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -492,25 +494,19 @@ p {
 .todo-text {
     flex: 1;
     margin-right: 1rem;
-}
-
-.todo-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0;
+    color: #ffffff !important;
 }
 
 .todo-name {
     font-weight: 500;
-    color: #2d2d2d;
+    color: #ffffff !important;
     flex: 1;
 }
 
 .todo-content {
     margin-top: 0.5rem;
     font-size: 1.2rem;
-    color: #666;
+    color: #ffffff !important;
     padding: 0.5rem 0;
     border-top: 1px solid #eee;
     transition: all 0.3s ease;
@@ -680,7 +676,7 @@ p {
     background: none;
     padding: 0.5rem 0;
     width: 100%;
-    color: #2d2d2d;
+    color: #ffffff !important;
     border-bottom: 2px solid transparent;
     transition: all 0.3s ease;
 }
@@ -699,7 +695,7 @@ p {
     background: none;
     padding: 0.5rem 0;
     width: 100%;
-    color: #2d2d2d;
+    color: #ffffff !important;
     resize: none;
     border-left: 2px solid transparent;
     transition: all 0.3s ease;
@@ -777,4 +773,5 @@ p {
     max-width: 800px;
     margin: 2.5rem auto 0;
     list-style: none;
+    color: #ffffff !important;
 }
