@@ -1,16 +1,16 @@
-const CACHE_NAME = 'do-app-v1';
+const CACHE_NAME = 'do-app-v2';
 const urlsToCache = [
-  './',
-  './do.html',
-  './do.css',
-  './do.js',
-  './new-task.html',
-  './new-task.js',
-  './task-details.html',
-  './task-details.js',
-  './manifest.json',
-  './icons/icon-192x192.png',
-  './icons/icon-512x512.png',
+  '/',
+  '/do.html',
+  '/do.css',
+  '/do.js',
+  '/new-task.html',
+  '/new-task.js',
+  '/task-details.html',
+  '/task-details.js',
+  '/manifest.json',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
 ];
 
@@ -38,40 +38,54 @@ self.addEventListener('activate', event => {
         })
       );
     }).then(() => {
-      // Take control of all pages immediately
       return self.clients.claim();
     })
   );
 });
 
-// Fetch handler with network-first strategy
+// Fetch handler with network-first strategy for HTML and network-first with cache fallback for other resources
 self.addEventListener('fetch', event => {
+  const url = new URL(event.request.url);
+  
+  // Handle navigation requests
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          return caches.match('/do.html');
+        })
+    );
+    return;
+  }
+
+  // Handle other requests
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // If online, cache the response and return it
+        // Cache successful responses
         if (response.ok) {
-          const responseClone = response.clone();
+          const responseToCache = response.clone();
           caches.open(CACHE_NAME)
             .then(cache => {
-              cache.put(event.request, responseClone);
+              cache.put(event.request, responseToCache);
             });
-          return response;
         }
-        throw new Error('Network response was not ok');
+        return response;
       })
       .catch(() => {
-        // If offline, try to get from cache
         return caches.match(event.request)
-          .then(cachedResponse => {
-            if (cachedResponse) {
-              return cachedResponse;
+          .then(response => {
+            if (response) {
+              return response;
             }
-            // If not in cache, return a fallback
-            if (event.request.url.includes('do.html')) {
-              return caches.match('./do.html');
+            // Return the default page for navigation requests
+            if (event.request.mode === 'navigate') {
+              return caches.match('/do.html');
             }
-            return new Response('Offline content not available');
+            return new Response('Network error happened', {
+              status: 408,
+              headers: { 'Content-Type': 'text/plain' },
+            });
           });
       })
   );

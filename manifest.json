@@ -3,7 +3,7 @@
   "short_name": "Do",
   "description": "A task management application",
   "id": "/",
-  "start_url": "./do.html",
+  "start_url": "/do.html",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
@@ -14,19 +14,19 @@
   "shortcuts": [
     {
       "name": "New Task",
-      "url": "./new-task.html",
-      "icons": [{ "src": "./icons/add-task.png", "sizes": "96x96" }]
+      "url": "/new-task.html",
+      "icons": [{ "src": "/icons/add-task.png", "sizes": "96x96" }]
     }
   ],
   "icons": [
     {
-      "src": "./icons/icon-192x192.png",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "./icons/icon-512x512.png",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
