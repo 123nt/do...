@@ -14,11 +14,11 @@ body {
         Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
     font-size: 16px;
     line-height: 1.5;
-    color: #2d2d2d;
+    color: #ffffff;
     max-width: 800px;
     margin: 0 auto;
     padding: 1rem;
-    background: #ffffff;
+    background: #1a1a1a;
     min-height: 100vh;
     padding-top: 60px;
     transition: background-color 0.3s ease;
@@ -39,13 +39,13 @@ input, textarea, button {
     justify-content: space-between;
     align-items: center;
     padding: 0.5rem 1rem;
-    background-color: #ffffff;
+    background-color: #1a1a1a;
     z-index: 1000;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 .navbar-brand {
-    color: #333;
+    color: #ffffff;
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: 500;
@@ -54,8 +54,8 @@ input, textarea, button {
 
 .install-btn {
     background: transparent;
-    color: #333;
-    border: 1px solid #ddd;
+    color: #ffffff;
+    border: 1px solid #404040;
     padding: 8px 16px;
     border-radius: 6px;
     cursor: pointer;
@@ -86,28 +86,23 @@ main {
     padding: 1rem;
     max-width: 800px;
     margin: 1.5rem auto 0;
-    color: #ffffff !important;
 }
 
 .todo-item {
     display: flex;
     align-items: center;
     padding: 0.8rem;
-    background-color: #ffffff;
+    background-color: #2d2d2d;
     margin-bottom: 0.8rem;
     border-radius: 8px;
     border: none;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 1;
-    transform: translateY(0);
-    font-size: 1.1rem;
     color: #ffffff !important;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .todo-item:hover {
-    background-color: #ffffff;
+    background-color: #333;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
@@ -115,7 +110,7 @@ main {
 .todo-item.completed {
     text-decoration: line-through;
     opacity: 0.7;
-    background-color: #f8f9fa;
+    background-color: #262626;
 }
 
 .todo-item input[type="checkbox"] {
@@ -130,7 +125,7 @@ main {
 
 .todo-item .delete-btn {
     margin-left: auto;
-    color: #808080;
+    color: #999;
     border: none;
     background: none;
     cursor: pointer;
@@ -141,7 +136,7 @@ main {
 
 .todo-item .delete-btn:hover {
     opacity: 1;
-    color: #2d2d2d;
+    color: #ffffff;
 }
 
 .add-button {
@@ -282,11 +277,12 @@ main {
 
     .install-btn {
         color: #ffffff;
-        border-color: #333;
+        border-color: #404040;
     }
 
     .todo-item {
         background-color: #2d2d2d;
+        color: #ffffff;
     }
 
     .todo-item:hover {
@@ -303,6 +299,18 @@ main {
 
     .todo-item .delete-btn:hover {
         color: #ffffff;
+    }
+
+    .editable-title,
+    .editable-content,
+    .todo-content,
+    .back-button {
+        color: #ffffff !important;
+    }
+
+    .task-form .editable-title,
+    .task-form .editable-content {
+        color: #ffffff !important;
     }
 }
 
@@ -474,14 +482,14 @@ main {
 .page-header h1 {
     font-size: 2.5rem;
     font-weight: 300;
-    color: #2d2d2d;
+    color: #ffffff;
     margin: 0;
 }
 
 p {
     margin-bottom: 1.5rem;
     font-size: 1.5rem;
-    color: #2d2d2d;
+    color: #ffffff;
 }
 
 .container {
@@ -508,7 +516,7 @@ p {
     font-size: 1.2rem;
     color: #ffffff !important;
     padding: 0.5rem 0;
-    border-top: 1px solid #eee;
+    border-top: 1px solid #404040;
     transition: all 0.3s ease;
 }
 
@@ -589,7 +597,7 @@ p {
     width: 100%;
     font-size: 1.8rem;
     font-weight: 300;
-    color: #2d2d2d;
+    color: #ffffff !important;
     border: none;
     background: none;
     padding: 0.5rem 0;
@@ -607,7 +615,7 @@ p {
     min-height: 200px;
     font-size: 1.2rem;
     line-height: 1.5;
-    color: #2d2d2d;
+    color: #ffffff !important;
     border: none;
     border-radius: 0;
     padding: 1rem 0;
